@@ -3,10 +3,12 @@ package newspapercrud.ui;
 import jakarta.inject.Inject;
 import lombok.Data;
 import newspapercrud.dao.jdbc.JDBCArticleRepository;
+import newspapercrud.domain.error.DatabaseError;
 import newspapercrud.domain.model.ArticleDTO;
 import newspapercrud.domain.model.TypeDTO;
 import newspapercrud.domain.service.ArticleService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,10 +22,18 @@ public class ArticleUi {
     public ArticleUi(ArticleService articleService, JDBCArticleRepository basicArticleJDBC) {
         this.basicArticleJDBC = basicArticleJDBC;
         this.articleService = articleService;
+
+
     }
 
     public List<ArticleDTO> getArticles() {
-        return articleService.getArticles();
+        List<ArticleDTO> list = new ArrayList<>();
+        try {
+            list = articleService.getArticles();
+        } catch (DatabaseError e) {
+            System.out.println("Database error during get all articles.");
+        }
+        return list;
     }
 
     public ArticleDTO getArticle() {

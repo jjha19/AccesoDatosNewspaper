@@ -1,7 +1,7 @@
 package newspapercrud.domain.error;
 
-public class DatabaseError extends RuntimeException{
-    public DatabaseError(String mensage){
+public class AppError extends RuntimeException{
+    public AppError(String mensage){
         super(mensage);
     }
 }

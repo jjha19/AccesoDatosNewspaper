@@ -1,6 +1,5 @@
 package newspapercrud.dao.jdbc;
 
-
 import jakarta.inject.Inject;
 import lombok.Data;
 import newspapercrud.dao.ArticleRepository;
@@ -8,6 +7,8 @@ import newspapercrud.dao.jdbc.mappers.ArticleMapper;
 import newspapercrud.dao.model.ArticleEntity;
 import newspapercrud.dao.utilities.DBConnection;
 import newspapercrud.dao.utilities.SQLQuery;
+import newspapercrud.domain.error.AppError;
+import newspapercrud.domain.error.DatabaseError;
 
 import java.sql.*;
 import java.util.List;
@@ -35,7 +36,9 @@ public class JDBCArticleRepository implements ArticleRepository {
         {
             return articles = mapper.map(rs);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseError(e.getMessage());
+        }catch (Exception e) {
+            throw new AppError(e.getMessage());
         }
 
     }
